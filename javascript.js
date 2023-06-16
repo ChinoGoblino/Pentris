@@ -15,6 +15,34 @@ let over = false;
 let ghost = [];
 let held = 0;
 let updated = false;
+let helpwindow = false;
+let settings = false;
+let soundbool = false;
+let music = false;
+let backgroundmusic = document.getElementById("backgroundmusic"); 
+settingspage();
+
+
+function settingspage() {
+    music = document.getElementById("music").checked;
+    soundbool = document.getElementById("sound").checked;
+    
+    //flip values as they are the wrong way round
+    if (music == true) {
+        backgroundmusic.pause();
+    }
+    else {
+        backgroundmusic.play();
+    }
+    
+    if (soundbool == true) {
+        soundbool = false;
+    }
+    else {
+        soundbool = true;
+    }
+}
+
 
 canvas.width = window.innerWidth * 0.447;
 nextcanvas.width = window.innerWidth * 0.18;
@@ -44,8 +72,9 @@ player[4] = localStorage.getItem("player5");
 
 let score = [];
 for (i=0; i<5; i++) {
-    if (isNaN(Number(localStorage.getItem('score' + i.toString()))) == true) {
+    if ((isNaN(Number(localStorage.getItem('score' + i.toString()))) == true) || (Number(localStorage.getItem('score' + i.toString())) == 0)) {
         score[i] = 0;
+        player[i] = "";
     }
     else {
         score[i] = Number(localStorage.getItem('score' + i.toString()));
@@ -53,8 +82,10 @@ for (i=0; i<5; i++) {
 }
 
 for (i=1; i<6; i++) {
-    document.getElementById("player" + i.toString()).innerHTML = (i.toString() + '. ' + player[i-1]);
-    document.getElementById("score" + i.toString()).innerHTML = score[i-1];
+    if (score[i-1] != 0) {
+        document.getElementById("player" + i.toString()).innerHTML = (i.toString() + '. ' + player[i-1]);
+        document.getElementById("score" + i.toString()).innerHTML = score[i-1];
+    }
 }
 
 //Resetting the current game stats
@@ -559,9 +590,11 @@ function destroy() {
     points = points + (rowNum.length * 10) * rowNum.length;
     
     //Sound when line is cleared.
-    let sound = new Audio('Assets/LineClear.wav');
-    sound.play();  
-
+    if (soundbool == true) {
+        let sound = new Audio('Assets/LineClear.wav');
+        sound.play();  
+    }
+    
     //Delete each completed row
     for (j=0; j<rowNum.length;j++) {
         for (i=0; i<inactive.length;i++) {
@@ -671,8 +704,10 @@ function countPixels(color, piece) {
 //Turning all the pieces in the current shape into the square array of inactive pieces
 function inactify(color) {
     //Play sound when the block is placed.
-    let sound = new Audio('Assets/place.wav');
-    sound.play(); 
+    if (soundbool == true) {
+        let sound = new Audio('Assets/place.wav');
+        sound.play(); 
+    }
     //Reset Count
     let colorData = [];
     let rgb = [];
@@ -742,8 +777,10 @@ function replaceColor(color) {
 //Bringing up the game over page and halting a bunch of other functions
 function gameover() {
     //Sound when game is lost.
-    let sound = new Audio('Assets/GameOver.wav');
-    sound.play();  
+    if (soundbool == true) {
+        let sound = new Audio('Assets/GameOver.wav');
+        sound.play(); 
+    }
 
     document.getElementById("gameover").style.visibility = "visible";
     over = true;
@@ -918,6 +955,9 @@ function hold() {
     temp = Object.assign({},next);
     next = Object.assign({},current);
     current = temp;
+    next.ycount = 2;
+    next.y = length * next.ycount;
+    
 
     //Redrawing little canvas
     btx.clearRect(0, 0, nextcanvas.width, nextcanvas.height);
@@ -928,7 +968,7 @@ function hold() {
 }
 
 //Button presses
-window.onkeyup = function(event) {
+window.onkeydown = function(event) {
     let key = event.key.toUpperCase();
     if (over == false) {
         if ( key == 'S') {
@@ -1043,8 +1083,10 @@ function leaderboarding() {
     //If a change has been made update the usernames
     if (index !== false) {
         //Sound when updated leaderboard
-        let sound = new Audio('Assets/EnterName.wav');
-        sound.play();  
+        if (soundbool==true) {
+            let sound = new Audio('Assets/EnterName.wav');
+            sound.play(); 
+        } 
         for (i=0; i<index; i++) {
             temparray[i] = player[i];
         }
@@ -1070,19 +1112,52 @@ function leaderboarding() {
 
     //Writing the leaderboard out on the LHS of the screen
     for (i=1; i<6; i++) {
-        document.getElementById("player" + i.toString()).innerHTML = (i.toString() + '. ' + player[i-1]);
-        document.getElementById("score" + i.toString()).innerHTML = score[i-1];
+        if (score[i-1] != 0) {
+            document.getElementById("player" + i.toString()).innerHTML = (i.toString() + '. ' + player[i-1]);
+            document.getElementById("score" + i.toString()).innerHTML = score[i-1];
+        }
     }
     updated = true;
     refresh();
 }
 
 //The aid screen that tells the user what each button does
-function helpme(state) {
-    if (state==true) {
+function helpme() {
+    if (helpwindow==false && settings == false) {
         document.getElementById("helpbox").style.visibility = "visible";
+        document.getElementById("helpbox").style.animation = "0.3s fadeIn";
+        helpwindow = true;
     }
-    else if (state==false){
-        document.getElementById("helpbox").style.visibility = "hidden";
+    else if (helpwindow==true){
+        setTimeout(function(){
+            document.getElementById("helpbox").style.visibility = "hidden";
+        }, 300);
+        document.getElementById("helpbox").style.animation = "0.3s fadeOut";
+        helpwindow = false;
+    }
+}
+
+//The settings screen
+function settingscreen() {
+    if (settings==false && helpwindow==false) {
+        document.getElementById("settingscreen").style.visibility = "visible";
+        document.getElementById("settingscreen").style.animation = "0.3s fadeIn";
+        document.getElementById("layer").style.display = "inherit";
+        document.getElementById("layer2").style.display = "inherit";
+        document.getElementById("knobs").style.display = "inherit";
+        document.getElementById("knobs2").style.display = "inherit";
+        settings = true;
+    }
+    else if (settings==true){
+        setTimeout(function(){
+            document.getElementById("settingscreen").style.visibility = "hidden";
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("layer2").style.display = "none";
+            document.getElementById("knobs").style.display = "none";
+            document.getElementById("knobs2").style.display = "none";
+        }, 300);
+        
+        document.getElementById("settingscreen").style.animation = "0.3s fadeOut";
+        settings = false;
     }
 }
