@@ -1,0 +1,107 @@
+<html>
+<head>
+    <title>Pentris</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="Assets/favicon.png">
+</head>
+<body>
+
+<audio loop autoplay id="backgroundmusic" src="Assets/Music.wav"></audio>
+
+<div class="sections">
+    <div class="configuration">
+        <img src="Assets/pentris.png" alt="logo"  class="logo"> 
+        <div class="points">
+            <div class="contents">
+                <h1>Points:</h1>
+                <p id="points"></p>
+                <h1>Layers:</h1>
+                <p id="layers"></p>
+            </div>
+        </div> 
+        <div class="ranking">
+            <div class="contents">
+                <h1>Leaderboard:</h1>
+                <div class="ranks">
+                    <div class = "players">
+                        <p class="player1" id="player1"></p>
+                        <p class="player2" id="player2"></p>
+                        <p class="player3" id="player3"></p>
+                        <p class="player4" id="player4"></p>
+                        <p class="player5" id="player5"></p>
+                    </div>
+                    <div class = "score">
+                        <p class="score1" id="score1"></p>
+                        <p class="score2" id="score2"></p>
+                        <p class="score3" id="score3"></p>
+                        <p class="score4" id="score4"></p>
+                        <p class="score5" id="score5"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="game">
+        <canvas id="canvas" class="playarea"></canvas>
+        <div id="gameover" class="gameover">
+            <p1>Game Over</p1>
+            <input type="text" id="username" class="input" value=''>
+        </div>
+        <div class="helpbox" id="helpbox">
+            <img src="Assets/backArrow.png" alt="Back Image"  class="back" type="button" onclick="helpme(false)"> 
+            <div class="controltextcontainer">
+                <p3>Control Layout</p3>
+            </div>
+            <img src="Assets/Keyboard.png" alt="Controls Image"  class="instructions"> 
+        </div>
+        <div class="settingscreen" id="settingscreen">
+            <img src="Assets/backArrow.png" alt="Back Image"  class="backsettings" type="button" onclick="settingscreen(false)"> 
+            <div class="controltextcontainersettings">
+                <p3>Settings</p3>
+            </div>
+            <div class="settingformat">
+                <p4 class="musictext">Music</p4>
+                    <div class="button-cover">
+                      <div class="button b2" id="button-10">
+                        <input type="checkbox" id="music" class="checkbox" onclick="settingspage()">
+                        <div class="knobs" id="knobs">
+                          <span>YES</span>
+                        </div>
+                        <div class="layer" id="layer"></div>
+                      </div>
+                    </div>
+                <p4 class="soundtext">Sound</p4>
+                <div class="button-cover2">
+                    <div class="button b2" id="button-10">
+                      <input type="checkbox" id="sound" class="checkbox" onclick="settingspage()">
+                      <div class="knobs2" id="knobs2">
+                        <span>YES</span>
+                      </div>
+                      <div class="layer2" id="layer2"></div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="rightSide">  
+        <img src="Assets/arrow.png" alt="Replay Image"  type="button" class="arrow" onclick="reset()"> 
+        <img src="Assets/question.png" alt="help Image" type="button" class="help" onclick="helpme()">      
+        <img src="Assets/cog.png" alt="Cog Image" type="button" class="settings" onclick="settingscreen()">      
+        <div class="nextPiece">
+            <div class="box">
+                 <div class="contents">
+                     <h1>Next Piece:</h1>
+                     <canvas id="nextcanvas"></canvas>
+                     <script src="javascript.js"></script>
+                 </div>
+             </div> 
+         </div>
+    </div>
+</div>
+
+</body>
+</html> 
