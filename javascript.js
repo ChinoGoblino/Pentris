@@ -1025,7 +1025,7 @@ function checkKey(e) {
 
 //Refresh all the original settings and configurations
 function reset() {
-    //clearing all settings
+    //clearing all variables
     degree = 0;
     backgroundPixelNumber = 0;
     inactive = [];
@@ -1035,12 +1035,13 @@ function reset() {
     held = 0;
     updated = false;
 
+    //Clearing Leaderboard
     document.getElementById("layers").innerHTML = layers;
     document.getElementById("points").innerHTML = points;
 
+    //Getting new pieces and drawing up the new leaderboard
     item = pieces[Math.floor(Math.random()*pieces.length)];
     current = new Current(item);
-
     item = pieces[Math.floor(Math.random()*pieces.length)];
     next = new Current(item);
     btx.clearRect(0, 0, nextcanvas.width, nextcanvas.height);
