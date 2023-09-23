@@ -4,4 +4,4 @@ Get ready to dominate the leaderboard in Pentris, the ultimate five-square Tetri
 **[Play Pentris](https://pentris.netlify.app)**
 
 ## Sources
-- [Tetris Fonts]([https://duckduckgo.com](https://erikdemaine.org/fonts/tetris/)https://erikdemaine.org/fonts/tetris/).
+- [Tetris Fonts](https://erikdemaine.org/fonts/tetris/)https://erikdemaine.org/fonts/tetris/).
